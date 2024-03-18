@@ -1,0 +1,10 @@
+name = "cf-worker-url-shortner"
+compatibility_date = "2023-12-01"
+
+[vars]
+API_TOKEN = ""
+
+[[d1_databases]]
+binding = "D1_Database"
+database_name = "url-shortner"
+database_id = ""

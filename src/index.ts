@@ -14,6 +14,8 @@ export type Bindings = {
 
 }
 
+const RESERVED_SLUGS = ["api", "dashboard"];
+
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.use("/api/*", cors());
@@ -63,6 +65,12 @@ app.post("/api/url-mappings", zValidator("json", addUrlRecordSchema), async (c) 
     try {
 
         const data = c.req.valid("json");
+
+        if (RESERVED_SLUGS.includes(data.slug)) {
+
+            return c.json({ message: "Slug is reserved" }, 400);
+
+        }
 
         const result = await drizzle(c.env.D1_Database).insert(urlMappings).values(data).returning().get();
 
